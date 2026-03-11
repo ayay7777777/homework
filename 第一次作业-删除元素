@@ -1,0 +1,18 @@
+from typing import Iterable, Any
+
+class Delete:
+    def __init__(self, iterable: Iterable[Any]):
+        self.iterable = list(iterable)
+
+    def delete(self, index_to_delete: int) -> Any:
+        self.iterable.pop(index_to_delete)
+
+fruits = ["apple", "banana", "cherry", "date", "blueberry"]
+
+delete_item = Delete(fruits)
+
+# 随机选择一个索引进行删除
+index = 2
+delete_item.delete(index)
+
+print(delete_item.iterable)
