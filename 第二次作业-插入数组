@@ -1,0 +1,28 @@
+from typing import Any, Sequence
+
+class aySet:
+    def __init__(self, iterable: Sequence[Any]):
+        #有序数组初始化
+        self.iterable = sorted(list(iterable))
+        self.len = len(self.iterable)
+        print(f"初始化有序集合：{self.iterable}")
+
+    def insert(self, element: Any) -> None:
+        #插入元素到有序数组中
+        print(f"插入元素: {element}")
+        insert_index: int = 0
+        for index, value in enumerate(self.iterable):
+            if element < value:
+                insert_index = index
+                break
+        else:
+            insert_index = self.len
+        
+        #插入元素并更新长度
+        self.iterable.insert(insert_index, element)
+        self.len += 1
+        print(f"插入后的有序集合: {self.iterable}")
+
+    def display(self):
+        #显示当前集合中的所有元素
+        print("当前集合中的元素有：", self.iterable)
