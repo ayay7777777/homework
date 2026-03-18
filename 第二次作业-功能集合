@@ -1,0 +1,29 @@
+class aySet:
+    def __init__(self):
+        self.set_data = set()
+
+    def insert(self, element):
+        #插入
+        self.set_data.add(element)
+        print(f"元素 {element} 插入成功")
+
+    def delete(self, element):
+        #删除
+        if element in self.set_data:
+            self.set_data.remove(element)
+            print(f"元素 {element} 删除成功")
+        else:
+            print(f"元素 {element} 不存在")
+
+    def check(self, element):
+        #查询
+        if element in self.set_data:
+            print(f"元素 {element} 存在")
+            return True
+        else:
+            print(f"元素 {element} 不存在")
+            return False
+
+    def display(self):
+        #显示当前集合中的所有元素
+        print("当前集合中的元素有：", self.set_data)
