@@ -1,0 +1,43 @@
+# 优化快速排序
+import random
+
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        # 随机选择一个元素作为轴
+        pivot_index = random.randint(0, len(arr) - 1)
+        pivot = arr[pivot_index]
+        # 将轴放在数组的末尾
+        arr[pivot_index], arr[-1] = arr[-1], arr[pivot_index]
+        less_than_pivot = [x for x in arr[:-1] if x <= pivot]
+        greater_than_pivot = [x for x in arr[:-1] if x > pivot]
+        return quick_sort(less_than_pivot) + [pivot] + quick_sort(greater_than_pivot)
+
+          
+# 三路快速排序
+def three_way_quick_sort(arr, low, high):
+    if low < high:
+        lt, gt = partition(arr, low, high)
+        three_way_quick_sort(arr, low, lt - 1)
+        three_way_quick_sort(arr, gt + 1, high)
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    lt = low - 1  # 指向小于轴的最后一个元素
+    i = low
+    gt = high     # 指向大于轴的第一个元素
+
+    while i <= gt:
+        if arr[i] < pivot:
+            lt += 1
+            arr[lt], arr[i] = arr[i], arr[lt]
+            i += 1
+        elif arr[i] > pivot:
+            gt -= 1
+            arr[i], arr[gt] = arr[gt], arr[i]
+        else:
+            i += 1
+
+    arr[lt + 1], arr[high] = arr[high], arr[lt + 1]  # 将轴放在中间
+    return lt + 1, gt
