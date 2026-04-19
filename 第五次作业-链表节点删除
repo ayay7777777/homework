@@ -1,0 +1,25 @@
+class ListNode:
+    def __init__(self, value=0, next=None):
+        self.value = value
+        self.next = next
+def delete_node(head, value):
+    # 创建一个虚拟头节点，方便处理删除头节点的情况
+    dummy_head = ListNode(value=0, next=head)
+    current = dummy_head
+
+    while current.next is not None:
+        if current.next.value == value:
+            # 删除目标节点
+            current.next = current.next.next
+        else:
+            current = current.next
+
+    # 返回新的头节点
+    return dummy_head.next
+# 检验
+def print_list(head):
+    current = head
+    while current is not None:
+        print(current.value, end=" -> ")
+        current = current.next
+    print("None")
