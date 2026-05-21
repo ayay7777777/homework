@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归并排序算法实现</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        .example {
+            margin-top: 20px;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>归并排序算法</h1>
+        
+        <p>归并排序是一种分治算法，它将数组分成两半，递归地对每一半进行排序，然后将排序后的两半合并。</p>
+        
+        <div class="code-block">
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left_half = merge_sort(arr[:mid])
+    right_half = merge_sort(arr[mid:])
+    
+    return merge(left_half, right_half)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    result.extend(left[i:])
+    result.extend(right[j:])
+    
+    return result
+
+# 示例使用
+unsorted_array = [64, 34, 25, 12, 22, 11, 90]
+print("原始数组:", unsorted_array)
+sorted_array = merge_sort(unsorted_array)
+print("排序后数组:", sorted_array)
+        </div>
+        
+        <div class="example">
+            <h3>算法特点：</h3>
+            <ul>
+                <li><span class="highlight">时间复杂度</span>: O(n log n)，在所有情况下都是稳定的</li>
+                <li><span class="highlight">空间复杂度</span>: O(n)，需要额外的存储空间来合并两个子数组</li>
+                <li><span class="highlight">稳定性</span>: 是稳定排序算法</li>
+                <li><span class="highlight">分治策略</span>: 将大问题分解为小问题，递归解决</li>
+            </ul>
+        </div>
+        
+        <div class="example">
+            <h3>示例执行过程：</h3>
+            <p>对数组 [64, 34, 25, 12, 22, 11, 90] 进行归并排序：</p>
+            <ol>
+                <li>将数组分为 [64, 34, 25] 和 [12, 22, 11, 90]</li>
+                <li>递归分割直到每个子数组只有一个元素</li>
+                <li>开始合并：[34, 64], [25], [12, 22], [11, 90]</li>
+                <li>继续合并：[25, 34, 64], [11, 12, 22, 90]</li>
+                <li>最终合并：[11, 12, 22, 25, 34, 64, 90]</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
