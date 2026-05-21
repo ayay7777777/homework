@@ -1,0 +1,75 @@
+class ListNode:
+    def __init__(self, value=0, next=None):
+        self.value = value
+        self.next = next
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, value):
+        if not self.head:
+            self.head = ListNode(value)
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = ListNode(value)
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next  # 暂存下一个节点
+            current.next = prev       # 反转当前节点的 next 指针
+            prev = current            # 将 prev 移动到当前节点
+            current = next_node       # 将 current 移动到下一个节点
+        self.head = prev
+
+    def has_cycle(self):
+        slow = self.head
+        fast = self.head
+        while fast and fast.next:
+            slow = slow.next          # 慢指针每次移动一步
+            fast = fast.next.next     # 快指针每次移动两步
+            if slow == fast:          # 如果快慢指针相遇，说明存在环
+                return True
+        return False
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.value, end=" -> ")
+            current = current.next
+        print("None")
+
+# 示例使用
+if __name__ == "__main__":
+    # 创建一个链表: a -> b -> c
+    ll = LinkedList()
+    ll.append('a')
+    ll.append('b')
+    ll.append('c')
+    
+    print("原始链表:")
+    ll.print_list()
+    
+    # 反转链表
+    ll.reverse()
+    print("反转后的链表:")
+    ll.print_list()
+    
+    # 判断链表是否有环
+    print("链表是否有环:", ll.has_cycle())
+    
+    # 创建一个带有环的链表: a -> b -> c -> b
+    ll_with_cycle = LinkedList()
+    ll_with_cycle.append('a')
+    ll_with_cycle.append('b')
+    ll_with_cycle.append('c')
+    node_a = ll_with_cycle.head
+    node_c = ll_with_cycle.head.next.next
+    node_c.next = node_a.next  # c -> b
+    
+    # 判断链表是否有环
+    print("带有环的链表是否有环:", ll_with_cycle.has_cycle())
