@@ -1,0 +1,65 @@
+from graphviz import Digraph
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def build_tree_from_list(arr):
+    """从层序数组构建二叉树"""
+    if not arr:
+        return None
+    
+    root = TreeNode(arr[0])
+    queue = [root]
+    i = 1
+    
+    while queue and i < len(arr):
+        node = queue.pop(0)
+        
+        # 左孩子
+        if i < len(arr) and arr[i] is not None:
+            node.left = TreeNode(arr[i])
+            queue.append(node.left)
+        i += 1
+        
+        # 右孩子
+        if i < len(arr) and arr[i] is not None:
+            node.right = TreeNode(arr[i])
+            queue.append(node.right)
+        i += 1
+    
+    return root
+
+def draw_tree(root):
+    """用 graphviz 绘制二叉树"""
+    dot = Digraph(comment='Binary Tree')
+    dot.attr(rankdir='TB', size='8,8', dpi='300')  # 从上到下，高分辨率
+    
+    def add_nodes_edges(node, parent_id=None):
+        if node is None:
+            return
+        
+        node_id = str(id(node))
+        label = str(node.val) if node.val is not None else 'None'
+        dot.node(node_id, label=label, shape='circle', style='filled', fillcolor='lightblue')
+        
+        if parent_id:
+            dot.edge(parent_id, node_id)
+        
+        add_nodes_edges(node.left, node_id)
+        add_nodes_edges(node.right, node_id)
+    
+    add_nodes_edges(root)
+    return dot
+
+# 主程序
+if __name__ == "__main__":
+    arr = [10, 5, 15, 3, 7, None, 20]
+    root = build_tree_from_list(arr)
+    dot = draw_tree(root)
+    
+    # 渲染并保存为 PNG
+    dot.render('binary_tree', format='png', cleanup=True, view=True)
+    print("✅ 二叉树已保存为 'binary_tree.png'，并自动打开查看。")
