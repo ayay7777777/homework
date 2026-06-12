@@ -1,0 +1,26 @@
+import heapq
+
+class MedianFinder:
+    def __init__(self):
+        self.small = []  # 小顶堆：存较大的一半（Python heapq默认小顶堆）
+        self.large = []  # 大顶堆：存较小的一半（用负数模拟）
+
+    def addNum(self, num: int) -> None:
+        # 步骤1：先插入大顶堆（large），取负数模拟大顶堆
+        heapq.heappush(self.large, -num)
+        # 步骤2：把large最大值弹出，插入small
+        largest_in_large = -heapq.heappop(self.large)
+        heapq.heappush(self.small, largest_in_large)
+        # 步骤3：如果small比large大，把small最小值弹出，放回large
+        if len(self.small) > len(self.large):
+            smallest_in_small = heapq.heappop(self.small)
+            heapq.heappush(self.large, -smallest_in_small)
+
+    def findMedian(self) -> float:
+        if len(self.small) == len(self.large):
+            # 偶数个：取两堆堆顶平均
+            return (-self.large[0] + self.small[0]) / 2.0
+        else:
+            # 奇数个：large多一个，返回large堆顶
+            return -self.large[0]
+#时间复杂度：总体：O(log n)
