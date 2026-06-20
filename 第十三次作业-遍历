@@ -1,0 +1,50 @@
+from collections import deque
+
+# 邻接表（无向图，按字母顺序）
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'D', 'E'],
+    'D': ['B', 'C', 'E'],
+    'E': ['C', 'D']
+}
+
+# ==================== DFS ====================
+def dfs(start):
+    visited = set()
+    result = []
+
+    def dfs_rec(u):
+        visited.add(u)
+        result.append(u)
+        for v in graph[u]:
+            if v not in visited:
+                dfs_rec(v)
+
+    dfs_rec(start)
+    return result
+
+
+# ==================== BFS ====================
+def bfs(start):
+    visited = set([start])
+    q = deque([start])
+    result = []
+
+    while q:
+        u = q.popleft()
+        result.append(u)
+        for v in graph[u]:
+            if v not in visited:
+                visited.add(v)
+                q.append(v)
+
+    return result
+
+
+# ==================== 输出结果 ====================
+dfs_order = dfs('A')
+bfs_order = bfs('A')
+
+print("DFS 遍历序列：", " → ".join(dfs_order)) #ABDCE
+print("BFS 遍历序列：", " → ".join(bfs_order)) #ABCDE
